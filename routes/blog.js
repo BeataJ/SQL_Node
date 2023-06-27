@@ -1,5 +1,7 @@
 const express = require('express');
 
+const db = require('../data/database');
+
 const router = express.Router();
 
 router.get('/', (req, res) => {
@@ -11,6 +13,7 @@ router.get("/posts", (req, res) => {
 });
 
 router.get('/new-post', (req, res)=> {
+    db.query('SELECT * FROM authors');
     res.render('create-post');
 })
 
