@@ -34,4 +34,16 @@ router.post('/posts', async (req, res) => {
     res.redirect('/posts');
 })
 
+router.get('/posts/:id', async (req, res) => {
+    const query = `
+        SELECT posts.*, authors.name AS author_name, authors.email AS author_email FROM posts 
+        INNER JOIN authors ON posts.author_id = authors.id
+        WHERE posts.id = ?
+    `;
+
+     const [posts] = await db.query(query, [req.params.id])
+
+    res.render('post-detail', { post: posts[0] });
+})
+
 module.exports = router;
