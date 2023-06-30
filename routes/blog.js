@@ -41,7 +41,11 @@ router.get('/posts/:id', async (req, res) => {
         WHERE posts.id = ?
     `;
 
-     const [posts] = await db.query(query, [req.params.id])
+     const [posts] = await db.query(query, [req.params.id]);
+
+    if(!posts || posts.length === 0) {
+       return res.status(404).render('404');
+    }
 
     res.render('post-detail', { post: posts[0] });
 })
